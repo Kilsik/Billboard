@@ -26,3 +26,18 @@ class Places(models.Model):
     class Meta:
         verbose_name='Place'
         verbose_name_plural='Places'
+
+
+class Images(models.Model):
+    place = models.ForeignKey(
+        Places,
+        verbose_name='Place',
+        related_name='images',
+        on_delete=models.DO_NOTHING,
+        )
+    img = models.ImageField(
+        verbose_name='Фото',
+        )
+    
+    def __str__(self):
+        return f'{self.pk} {self.place}'
