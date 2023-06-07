@@ -1,4 +1,28 @@
 from django.db import models
 
 
-print('Hello, world!')
+class Places(models.Model):
+    title = models.CharField(
+        max_length=255,
+        verbose_name='Наименование',
+        )
+    description_short = models.CharField(
+        max_length=500,
+        verbose_name='Краткое описание',
+        )
+    description_long = models.TextField(
+        verbose_name='Полное описание',
+        )
+    lng = models.FloatField(
+        verbose_name='Долгота',
+        )
+    lat = models.FloatField(
+        verbose_name='Широта'
+        )
+    
+    def __str__(self):
+        return f'{self.title}'
+    
+    class Meta:
+        verbose_name='Place'
+        verbose_name_plural='Places'
