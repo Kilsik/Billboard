@@ -19,13 +19,13 @@ class Places(models.Model):
     lat = models.FloatField(
         verbose_name='Широта'
         )
-    
+
     def __str__(self):
         return f'{self.title}'
-    
+
     class Meta:
-        verbose_name='Place'
-        verbose_name_plural='Places'
+        verbose_name = 'Place'
+        verbose_name_plural = 'Places'
 
 
 class Images(models.Model):
@@ -38,6 +38,6 @@ class Images(models.Model):
     img = models.ImageField(
         verbose_name='Фото',
         )
-    
+
     def __str__(self):
         return f'{self.pk} {self.place}'
