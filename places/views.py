@@ -1,5 +1,7 @@
-from django.shortcuts import render
-from .models import Places, Images
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+
+from .models import Places
 
 
 def show_billboards(request):
@@ -7,12 +9,7 @@ def show_billboards(request):
     features = []
     for place in places:
         feature = {}
-        imgs = place.images_set.all()
-        images = []
-        for img in imgs:
-            image = img.img.url
-            images.append(image)
-        # print(images)
+        
         feature['type'] = "Feature"
         feature['geometry'] = {
             'type': 'Point',
@@ -37,5 +34,25 @@ def show_billboards(request):
             'type': 'FeatureCollection',
             'features': features
             }
-        # print(geojson)
     return render(request, 'index.html', context={'geojson': geojson})
+
+
+def show_place_detail(request, placeid):
+    place = get_object_or_404(Places, pk=placeid)
+    imgs = place.images_set.all()
+    images = []
+    for img in imgs:
+        image = img.img.url
+        images.append(image)
+    details = {
+        'title': place.title,
+        'imgs': images,
+        'description_short': place.description_short,
+        'description_long': place.description_long,
+        'coordinates': {
+            'lng': place.lng,
+            'lat': place.lat
+            }
+        }
+    
+    return JsonResponse(details, json_dumps_params={'ensure_ascii': False})
