@@ -42,8 +42,9 @@ class Places(models.Model):
 
 
 class Images(models.Model):
-    position = models.IntegerField(
+    position = models.PositiveIntegerField(
         verbose_name='Позиция',
+        default=0,
         )
     place = models.ForeignKey(
         Places,
@@ -67,3 +68,4 @@ class Images(models.Model):
     class Meta:
         verbose_name = 'Фотография'
         verbose_name_plural = 'Фотографии'
+        ordering = ['position', ]
