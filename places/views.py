@@ -10,7 +10,7 @@ def show_billboards(request):
     features = []
     for place in places:
         feature = {}
-        
+
         feature['type'] = "Feature"
         feature['geometry'] = {
             'type': 'Point',

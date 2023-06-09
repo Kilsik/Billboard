@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 
 
 class Places(models.Model):
@@ -41,10 +42,12 @@ class Places(models.Model):
 
 
 class Images(models.Model):
+    position = models.IntegerField(
+        verbose_name='Позиция',
+        )
     place = models.ForeignKey(
         Places,
         verbose_name='Place',
-        # related_name='images',
         on_delete=models.DO_NOTHING,
         )
     img = models.ImageField(
@@ -53,3 +56,14 @@ class Images(models.Model):
 
     def __str__(self):
         return f'{self.pk} {self.place}'
+
+    def preview(self):
+        height = 200
+        width = self.img.width*height/self.img.height
+        return mark_safe(
+            f'<img src={ self.img.url } width={width} height={height}>'
+            )
+
+    class Meta:
+        verbose_name = 'Фотография'
+        verbose_name_plural = 'Фотографии'
