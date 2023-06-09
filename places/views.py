@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.urls import reverse
 
 from .models import Places
 
@@ -18,16 +19,7 @@ def show_billboards(request):
         feature['properties'] = {
             'title': place.short_title,
             'placeId': place.placeid,
-            'detailsUrl': {
-                'title': place.title,
-                'imgs': images,
-                'description_short': place.description_short,
-                'description_long': place.description_long,
-                'coordinates': {
-                    'lng': place.lng,
-                    'lat': place.lat
-                    }
-                }
+            'detailsUrl': reverse('show-detail', kwargs={'placeid': place.pk})
             }
         features.append(feature)
         geojson = {
@@ -54,5 +46,4 @@ def show_place_detail(request, placeid):
             'lat': place.lat
             }
         }
-    
     return JsonResponse(details, json_dumps_params={'ensure_ascii': False})
