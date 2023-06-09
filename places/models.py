@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from tinymce.models import HTMLField
 
 
 class Places(models.Model):
@@ -23,8 +24,8 @@ class Places(models.Model):
         max_length=500,
         verbose_name='Краткое описание',
         )
-    description_long = models.TextField(
-        verbose_name='Полное описание',
+    description_long = HTMLField(
+        verbose_name='Полное описание'
         )
     lng = models.FloatField(
         verbose_name='Долгота',
