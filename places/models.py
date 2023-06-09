@@ -6,6 +6,18 @@ class Places(models.Model):
         max_length=255,
         verbose_name='Наименование',
         )
+    short_title = models.CharField(
+        max_length=50,
+        verbose_name='Краткое наименование',
+        blank=True,
+        null=True,
+        )
+    placeid = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name='PlaceId',
+        )
     description_short = models.CharField(
         max_length=500,
         verbose_name='Краткое описание',
@@ -32,7 +44,7 @@ class Images(models.Model):
     place = models.ForeignKey(
         Places,
         verbose_name='Place',
-        related_name='images',
+        # related_name='images',
         on_delete=models.DO_NOTHING,
         )
     img = models.ImageField(
