@@ -1,7 +1,10 @@
 import os
 
 from pathlib import Path
+from dotenv import load_dotenv, find_dotenv
 
+
+load_dotenv(find_dotenv())
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0wwyk^(rby(=4u*2-kyg=&!#e1+^ej^0jnpmv8bk%!^0dz!f$b'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'REPLACE_ME')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -68,8 +71,8 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DATABASE_NAME', BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -108,9 +111,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-# STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static/"), )
+STATIC_URL = os.environ.get('STATIC_URL', 'static/')
+STATIC_ROOT = os.environ.get('STATIC_ROOT', BASE_DIR / 'static/places')
+STATICFILES_DIRS = os.environ.get('STATICFILES_DIRS', (os.path.join(BASE_DIR, "static/"), ))
 MEDIA_URL = os.getenv('MEDIA_URL', 'media/')
 MEDIA_ROOT = os.getenv("MEDIA_ROOT", os.path.join(BASE_DIR, 'media'))
 
