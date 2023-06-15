@@ -14,8 +14,9 @@ class Places(models.Model):
         blank=True,
         null=True,
         )
-    placeid = models.CharField(
+    placeid = models.SlugField(
         max_length=100,
+        db_index=True,
         blank=True,
         null=True,
         verbose_name='PlaceId',
