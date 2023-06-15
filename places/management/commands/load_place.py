@@ -1,7 +1,6 @@
-from typing import Any, Optional
 import requests
 
-from django.core.management.base import BaseCommand, CommandError, CommandParser
+from django.core.management.base import BaseCommand
 from django.core.exceptions import MultipleObjectsReturned
 from slugify import slugify
 from django.core.files.base import ContentFile
@@ -30,7 +29,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('json_urls', nargs='+')
-        
+
     def handle(self, *args, **options):
         for url in options['json_urls']:
             try:
@@ -43,7 +42,7 @@ class Command(BaseCommand):
                 print(err)
             except MultipleObjectsReturned:
                 print('Существует несколько объектов, соответствующих', url)
-                
+
             for pos, img_url in enumerate(img_urls):
                 try:
                     response = requests.get(img_url)
