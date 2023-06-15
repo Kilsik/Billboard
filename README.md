@@ -1,7 +1,7 @@
 # Куда пойти — Москва глазами Артёма
 Сайт о самых интересных местах в Москве. Авторский проект Артёма.
 
-![image](https://github.com/Kilsik/Billboard/assets/123646405/660f6e49-dc1b-48db-bf6a-e0e5d6c3afcf)
+![image](https://github.com/Kilsik/Billboard/assets/123646405/531010b4-e428-4148-9e4d-74f506f74a85)
 
 
 [Тут](https://ilsi.pythonanywhere.com/) можно посмотреть демо-версию сайта.
