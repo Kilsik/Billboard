@@ -24,7 +24,6 @@ pip install -r requirements.txt
 - `DATABASE_ENGINE` - используемый движок для доступа к БД
 - `DATABASE_NAME` - путь к базе данных
 - `STATIC_URL` - адрес статических файлов
-- `STATICFILES_DIRS` - список каталогов статических файлов
 - `MEDIA_URL` - адрес медиа данных
 - `MEDIA_ROOT` - каталог хранения медиа данных
 

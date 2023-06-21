@@ -8,23 +8,20 @@ class Places(models.Model):
         max_length=255,
         verbose_name='Наименование',
         )
-    short_title = models.CharField(
-        max_length=50,
-        verbose_name='Краткое наименование',
-        blank=True,
-        null=True,
-        )
     placeid = models.SlugField(
         max_length=100,
         db_index=True,
         verbose_name='PlaceId',
         )
-    description_short = models.CharField(
-        max_length=500,
+    description_short = models.TextField(
         verbose_name='Краткое описание',
+        blank=True,
+        null=True,
         )
     description_long = HTMLField(
-        verbose_name='Полное описание'
+        verbose_name='Полное описание',
+        blank=True,
+        null=True,
         )
     lng = models.FloatField(
         verbose_name='Долгота',
@@ -33,12 +30,12 @@ class Places(models.Model):
         verbose_name='Широта'
         )
 
-    def __str__(self):
-        return f'{self.title}'
-
     class Meta:
         verbose_name = 'Place'
         verbose_name_plural = 'Places'
+
+    def __str__(self):
+        return f'{self.title}'
 
 
 class Images(models.Model):
@@ -55,6 +52,11 @@ class Images(models.Model):
         verbose_name='Фото',
         )
 
+    class Meta:
+        verbose_name = 'Фотография'
+        verbose_name_plural = 'Фотографии'
+        ordering = ['position', ]
+
     def __str__(self):
         return f'{self.pk} {self.place}'
 
@@ -64,8 +66,3 @@ class Images(models.Model):
         return mark_safe(
             f'<img src={ self.img.url } width={width} height={height}>'
             )
-
-    class Meta:
-        verbose_name = 'Фотография'
-        verbose_name_plural = 'Фотографии'
-        ordering = ['position', ]

@@ -17,7 +17,7 @@ def show_billboards(request):
             'coordinates': [place.lng, place.lat]
             }
         feature['properties'] = {
-            'title': place.short_title,
+            'title': place.title,
             'placeId': place.placeid,
             'detailsUrl': reverse('show-detail', kwargs={'placeid': place.pk})
             }
