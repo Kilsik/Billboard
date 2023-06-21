@@ -8,9 +8,10 @@
 
 ### Как установить
 
-* Скачать [этот script](https://github.com/Kilsik/Billboard)
+* Скачать файлы [этого репозитория](https://github.com/Kilsik/Billboard)
 
-**Python3 уже должен быть установлен**. 
+**Python3 уже должен быть установлен**.
+Рекомендуется пользоваться виртуальным окружением.
 Используйте `pip` (или `pip3`, если возникает конфликт с Python2) для установки зависимостей:
 ```sh
 pip install -r requirements.txt
@@ -30,7 +31,6 @@ pip install -r requirements.txt
 Создайте базу данных SQLite:
 
 ```sh
-python manage.py makemigrations
 python manage.py migrate
 ```
 
