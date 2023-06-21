@@ -36,7 +36,7 @@ python manage.py migrate
 
 Создайте супер пользователя (администратора) командой:
 ```sh
-python manage.py createcuperuser
+python manage.py createsuperuser
 ```
 
 Запустить сервер:
