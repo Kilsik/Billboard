@@ -18,7 +18,7 @@ def show_billboards(request):
             }
         feature['properties'] = {
             'title': place.title,
-            'placeId': place.placeid,
+            'placeId': place.pk,
             'detailsUrl': reverse('show-detail', kwargs={'placeid': place.pk})
             }
         features.append(feature)
@@ -31,7 +31,7 @@ def show_billboards(request):
 
 def show_place_detail(request, placeid):
     place = get_object_or_404(Places, pk=placeid)
-    imgs = place.images_set.all()
+    imgs = place.images.all()
     images = []
     for img in imgs:
         image = img.img.url

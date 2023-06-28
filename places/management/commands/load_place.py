@@ -19,7 +19,6 @@ def add_place(url):
         description_long=place_json['description_long'],
         lng=float(place_json['coordinates']['lng']),
         lat=float(place_json['coordinates']['lat']),
-        placeid=slugify(place_json['title'])
         )
     return place, created, place_json['imgs']
 
