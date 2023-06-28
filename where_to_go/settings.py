@@ -1,10 +1,10 @@
 import os
 
 from pathlib import Path
-from dotenv import load_dotenv, find_dotenv
+from environs import Env
 
-
-load_dotenv(find_dotenv())
+env = Env()
+env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,12 +13,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', False)
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -71,8 +71,8 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.environ.get('DATABASE_NAME', BASE_DIR / 'db.sqlite3'),
+        'ENGINE': env('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': env('DATABASE_NAME', BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -111,11 +111,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = os.environ.get('STATIC_URL', 'static/')
-STATIC_ROOT = os.environ.get('STATIC_ROOT')
+STATIC_URL = env('STATIC_URL', 'static/')
+STATIC_ROOT = env('STATIC_ROOT')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
-MEDIA_URL = os.getenv('MEDIA_URL', 'media/')
-MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
+MEDIA_URL = env('MEDIA_URL', 'media/')
+MEDIA_ROOT = env('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
