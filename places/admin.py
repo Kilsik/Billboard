@@ -1,25 +1,28 @@
 from django.contrib import admin
 from adminsortable2.admin import SortableAdminMixin, SortableAdminBase, SortableStackedInline
+from django.utils.html import format_html
 
 from .models import Places, Images
 
 
 class ImagesInline(SortableStackedInline):
     model = Images
-    fields = ['place', 'img', 'preview', 'position']
+    fields = ['place', 'img', 'position', 'preview']
     readonly_fields = ['preview']
     ordering = ['position', ]
     extra  = 1
 
-    # def preview(self, obj):
+    def preview(self, obj):
+        return format_html(
+            f'<img src={obj.img.url} height=200>'
+        )
 
 
 @admin.register(Images)
 class ImagesAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ['place', 'position']
+    list_display = ['place', 'position',]
     ordering = ('pk', 'place')
     sortable_by = ['place', 'position']
-    readonly_fields = ['preview']
 
 
 @admin.register(Places)
