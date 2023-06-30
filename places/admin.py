@@ -10,17 +10,19 @@ class ImagesInline(SortableStackedInline):
     fields = ['place', 'img', 'position', 'preview']
     readonly_fields = ['preview']
     ordering = ['position', ]
-    extra  = 1
+    extra = 1
 
     def preview(self, obj):
         return format_html(
-            f'<img src={obj.img.url} height=200>'
+            '<img src={} height={}>',
+            obj.img.url,
+            200
         )
 
 
 @admin.register(Images)
 class ImagesAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ['place', 'position',]
+    list_display = ['place', 'position']
     ordering = ('pk', 'place')
     sortable_by = ['place', 'position']
 

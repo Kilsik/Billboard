@@ -9,33 +9,32 @@ def show_billboards(request):
     places = Places.objects.all()
     features = []
     for place in places:
-        feature = {}
-
-        feature['type'] = "Feature"
-        feature['geometry'] = {
-            'type': 'Point',
-            'coordinates': [place.lng, place.lat]
+        feature = {
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [place.lng, place.lat]
+            },
+            'properties': {
+                'title': place.title,
+                'placeId': place.pk,
+                'detailsUrl': reverse('show-detail', kwargs={'place_id': place.pk})
             }
-        feature['properties'] = {
-            'title': place.title,
-            'placeId': place.pk,
-            'detailsUrl': reverse('show-detail', kwargs={'placeid': place.pk})
-            }
+        }
         features.append(feature)
-        geojson = {
+        context = {
+            'geojson': {
             'type': 'FeatureCollection',
             'features': features
             }
-    return render(request, 'index.html', context={'geojson': geojson})
+        }
+    return render(request, 'index.html', context=context)
 
 
-def show_place_detail(request, placeid):
-    place = get_object_or_404(Places, pk=placeid)
+def show_place_detail(request, place_id):
+    place = get_object_or_404(Places, pk=place_id)
     imgs = place.images.all()
-    images = []
-    for img in imgs:
-        image = img.img.url
-        images.append(image)
+    images = [img.img.url for img in imgs]
     details = {
         'title': place.title,
         'imgs': images,
