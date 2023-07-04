@@ -2,7 +2,7 @@ from django.db import models
 from tinymce.models import HTMLField
 
 
-class Places(models.Model):
+class Place(models.Model):
     title = models.CharField(
         max_length=255,
         verbose_name='Наименование',
@@ -30,13 +30,13 @@ class Places(models.Model):
         return f'{self.title}'
 
 
-class Images(models.Model):
+class Image(models.Model):
     position = models.PositiveIntegerField(
         verbose_name='Позиция',
         default=0,
     )
     place = models.ForeignKey(
-        Places,
+        Place,
         verbose_name='Place',
         on_delete=models.DO_NOTHING,
         related_name='images'
