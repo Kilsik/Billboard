@@ -2,15 +2,12 @@ import requests
 
 from django.core.management.base import BaseCommand
 from django.core.exceptions import MultipleObjectsReturned
+from django.core.files.base import ContentFile
 
 from places.models import Place, Image
 
 
 def add_place(loaded_place):
-    if ('title' not in loaded_place) or ('coordinates' not in loaded_place)\
-            or ('lat' not in loaded_place['coordinates'])\
-            or ('lng' not in loaded_place['coordinates']):
-        raise KeyError
     place, created = Place.objects.update_or_create(
         title=loaded_place['title'],
         defaults={
@@ -31,9 +28,8 @@ def load_images(place, img_urls):
         img = Image.objects.create(
             position=pos,
             place=place,
-            img=file_name
+            img=ContentFile(response.content, file_name)
         )
-        img.save()
         print(f'Загружено фото {file_name}')
     return
 
@@ -53,6 +49,7 @@ class Command(BaseCommand):
                 place, created = add_place(loaded_place)
                 if not created:
                     print(f'Локация {place} обновлена')
+                    continue
                 else:
                     print(f'Создана локация {place}')
                     img_urls = loaded_place['imgs']
@@ -63,7 +60,7 @@ class Command(BaseCommand):
             except MultipleObjectsReturned:
                 print('Существует несколько объектов, соответствующих', url)
                 continue
-            except KeyError:
-                print('Локация не может быть создана без названия и/или координат')
+            except KeyError as err:
+                print(f'В данных отсутствует обязательный кллюч', err)
                 continue
         return None
