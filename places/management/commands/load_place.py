@@ -2,7 +2,6 @@ import requests
 
 from django.core.management.base import BaseCommand
 from django.core.exceptions import MultipleObjectsReturned
-from django.core.files.base import ContentFile
 
 from places.models import Place, Image
 
@@ -15,10 +14,10 @@ def add_place(loaded_place):
     place, created = Place.objects.update_or_create(
         title=loaded_place['title'],
         defaults={
-            'description_short': loaded_place['description_short'] if 'description_short' in loaded_place else '',
-            'description_long': loaded_place['description_long'] if 'description_long' in loaded_place else '',
-            'lng': float(loaded_place['coordinates']['lng']),
-            'lat': float(loaded_place['coordinates']['lat']),
+            'description_short': loaded_place.get('description_short', ''),
+            'description_long': loaded_place.get('description_short', ''),
+            'lng': loaded_place['coordinates']['lng'],
+            'lat': loaded_place['coordinates']['lat'],
         }
     )
     return place, created
@@ -32,10 +31,11 @@ def load_images(place, img_urls):
         img = Image.objects.create(
             position=pos,
             place=place,
+            img=file_name
         )
-        img.img.save(file_name, ContentFile(response.content))
+        img.save()
         print(f'Загружено фото {file_name}')
-    return None
+    return
 
 
 class Command(BaseCommand):
@@ -55,6 +55,8 @@ class Command(BaseCommand):
                     print(f'Локация {place} обновлена')
                 else:
                     print(f'Создана локация {place}')
+                    img_urls = loaded_place['imgs']
+                    load_images(place, img_urls)
             except requests.HTTPError as err:
                 print(err)
                 continue
@@ -64,9 +66,4 @@ class Command(BaseCommand):
             except KeyError:
                 print('Локация не может быть создана без названия и/или координат')
                 continue
-            img_urls = loaded_place['imgs']
-            try:
-                load_images(place, img_urls)
-            except requests.HTTPError as err:
-                print(err)
         return None
