@@ -1,5 +1,4 @@
 import requests
-import os
 
 from django.core.management.base import BaseCommand
 from django.core.exceptions import MultipleObjectsReturned
@@ -10,7 +9,8 @@ from places.models import Place, Image
 
 def add_place(loaded_place):
     if ('title' not in loaded_place) or ('coordinates' not in loaded_place)\
-        or ('lat' not in loaded_place['coordinates']) or ('lng' not in loaded_place['coordinates']):
+            or ('lat' not in loaded_place['coordinates'])\
+            or ('lng' not in loaded_place['coordinates']):
         raise KeyError
     place, created = Place.objects.update_or_create(
         title=loaded_place['title'],
@@ -21,7 +21,6 @@ def add_place(loaded_place):
             'lat': float(loaded_place['coordinates']['lat']),
         }
     )
-        
     return place, created
 
 
@@ -33,7 +32,7 @@ def load_images(place, img_urls):
         img = Image.objects.create(
             position=pos,
             place=place,
-            )
+        )
         img.img.save(file_name, ContentFile(response.content))
         print(f'Загружено фото {file_name}')
     return None
