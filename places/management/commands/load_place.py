@@ -25,13 +25,12 @@ def load_images(place, img_urls):
         file_name = img_url.split('/')[-1]
         response = requests.get(img_url)
         response.raise_for_status()
-        img = Image.objects.create(
+        _ = Image.objects.create(
             position=pos,
             place=place,
             img=ContentFile(response.content, file_name)
         )
         print(f'Загружено фото {file_name}')
-    return
 
 
 class Command(BaseCommand):
@@ -61,6 +60,5 @@ class Command(BaseCommand):
                 print('Существует несколько объектов, соответствующих', url)
                 continue
             except KeyError as err:
-                print(f'В данных отсутствует обязательный кллюч', err)
+                print(f'В данных отсутствует обязательный ключ', err)
                 continue
-        return None
