@@ -25,7 +25,7 @@ def load_images(place, img_urls):
         file_name = img_url.split('/')[-1]
         response = requests.get(img_url)
         response.raise_for_status()
-        _ = Image.objects.create(
+        Image.objects.create(
             position=pos,
             place=place,
             img=ContentFile(response.content, file_name)
